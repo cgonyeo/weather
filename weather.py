@@ -13,11 +13,18 @@ args = sys.argv
 f = open(args[1],"r")
 weather = "".join(f.readlines())
 soup = BeautifulSoup(weather)
+
 fct_days_list = soup.find_all(id="fct_days")
 if(len(fct_days_list) == 0):
+	print "Error: couldn't find fct_days div"
 	exit()
 fct_days = fct_days_list[0]
-fctScrollContain = fct_days.find_all("div", class_="fctScrollContain")[0]
+
+fctScrollContain_list = fct_days.find_all("div", class_="fctScrollContain")
+if(len(fctScrollContain_list) == 0):
+	print "Error: couldn't find fctScrollContain div"
+	exit()
+fctScrollContain = fctScrollContain_list[0]
 
 fct_days_list = list(fctScrollContain.children)[1::2]
 
@@ -44,10 +51,10 @@ for day in fct_days_list:
 		forecast = day.find_all("div", class_="fctDayConditions")[0]
 
 		if(counter == daysPerLine):
-			print dayLine
-			print conditionsLine
-			print forecastLine
-			print borderLine
+			print dayLine.encode("utf8")
+			print conditionsLine.encode("utf8")
+			print forecastLine.encode("utf8")
+			print borderLine.encode("utf8")
 			dayLine = "|"
 			conditionsLine = "|"
 			forecastLine = "|"
@@ -67,7 +74,7 @@ for i in range((len(dayLine) - 1) / 21, (daysPerLine * (lineLength + 1) + 1) / 2
 	conditionsLine += " " * 20 + "|"
 	forecastLine += " " * 20 + "|"
 
-print dayLine
-print conditionsLine
-print forecastLine
-print borderLine
+print dayLine.encode("utf8")
+print conditionsLine.encode("utf8")
+print forecastLine.encode("utf8")
+print borderLine.encode("utf8")
