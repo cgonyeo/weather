@@ -42,28 +42,20 @@ forecastLine = "|"
 
 nowCond = soup.find_all(id="nowCond")[0]
 nowTemp = soup.find_all(id="nowTemp")[0]
-nowSuns = soup.find_all(id="nowSuns")[0]
-nowMoons = soup.find_all(id="mPhase")[0]
 condText = nowCond.getText().strip().splitlines()
 tempText =  nowTemp.getText().strip().splitlines()
-sunsText = nowSuns.getText().strip().splitlines()
-moonText = nowMoons.getText().strip().splitlines()
 
-line1 = "Currently: " + tempText[2] + ", " + condText[2]
+line1 = tempText[2] + ", " + condText[2]
 line2 = tempText[4] + " " + tempText[5].strip()
-line3 = sunsText[0] + " " + sunsText[1] + " " + sunsText[2]
 
 numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line1)
 line1 = "|" + (" " * (numSpaces // 2)) + line1 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
 numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line2)
 line2 = "|" + (" " * (numSpaces // 2)) + line2 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
-numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line3)
-line3 = "|" + (" " * (numSpaces // 2)) + line3 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
 
 print "+" + "-" * (lineLength * daysPerLine + daysPerLine - 1) + "+"
 print line1.encode("utf8")
 print line2.encode("utf8")
-print line3.encode("utf8")
 
 print borderLine
 for day in fct_days_list:
