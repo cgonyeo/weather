@@ -7,9 +7,18 @@ counter = 0
 dayCounter = 0
 numDays = 6
 daysPerLine = 3
+lineLength = 20
 
 args = sys.argv
 
+if(len(args) > 2):
+	daysPerLine = int(args[2])
+borderLine = "+"
+for i in range(daysPerLine):
+	borderLine += "-" * lineLength + "+"
+print borderLine
+
+#Open the file
 f = open(args[1],"r")
 weather = "".join(f.readlines())
 soup = BeautifulSoup(weather)
@@ -32,17 +41,31 @@ dayLine = "|"
 conditionsLine = "|"
 forecastLine = "|"
 
-lineLength = 20
-if(len(args) > 2):
-	daysPerLine = int(args[2])
+nowCond = soup.find_all(id="nowCond")[0]
+nowTemp = soup.find_all(id="nowTemp")[0]
+nowSuns = soup.find_all(id="nowSuns")[0]
+nowMoons = soup.find_all(id="mPhase")[0]
+condText = nowCond.getText().strip().splitlines()
+tempText =  nowTemp.getText().strip().splitlines()
+sunsText = nowSuns.getText().strip().splitlines()
+moonText = nowMoons.getText().strip().splitlines()
 
-borderLine = "+"
+line1 = "Currently: " + tempText[2] + ", " + condText[2]
+line2 = tempText[4] + " " + tempText[5].strip()
+line3 = sunsText[0] + " " + sunsText[1] + " " + sunsText[2]
 
-for i in range(daysPerLine):
-	borderLine += "-" * lineLength + "+"
+numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line1)
+line1 = "|" + (" " * (numSpaces // 2)) + line1 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
+numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line2)
+line2 = "|" + (" " * (numSpaces // 2)) + line2 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
+numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line3)
+line3 = "|" + (" " * (numSpaces // 2)) + line3 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
+
+print line1
+print line2
+print line3
 
 print borderLine
-
 for day in fct_days_list:
 	dateList = day.find_all("div", class_="fctDayDate")
 	if(len(dateList) > 0 and dayCounter < numDays):
