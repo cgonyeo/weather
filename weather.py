@@ -16,7 +16,6 @@ if(len(args) > 2):
 borderLine = "+"
 for i in range(daysPerLine):
 	borderLine += "-" * lineLength + "+"
-print borderLine
 
 #Open the file
 f = open(args[1],"r")
@@ -61,9 +60,10 @@ line2 = "|" + (" " * (numSpaces // 2)) + line2 + (" " * (numSpaces // 2 + numSpa
 numSpaces = (lineLength * daysPerLine + daysPerLine - 1) - len(line3)
 line3 = "|" + (" " * (numSpaces // 2)) + line3 + (" " * (numSpaces // 2 + numSpaces % 2)) + "|"
 
-print line1
-print line2
-print line3
+print "+" + "-" * (lineLength * daysPerLine + daysPerLine - 1) + "+"
+print line1.encode("utf8")
+print line2.encode("utf8")
+print line3.encode("utf8")
 
 print borderLine
 for day in fct_days_list:
